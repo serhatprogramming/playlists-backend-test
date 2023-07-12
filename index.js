@@ -2,6 +2,12 @@ const express = require("express");
 const app = express();
 const cors = require("cors");
 const mongoose = require("mongoose");
+require("dotenv").config();
+
+const logger = require("./utils/logger");
+const config = require("./utils/config");
+
+mongoose.set("strictQuery", false);
 
 const playlistSchema = new mongoose.Schema({
   name: String,
@@ -12,8 +18,10 @@ const playlistSchema = new mongoose.Schema({
 
 const Playlist = mongoose.model("Playlist", playlistSchema);
 
-const dbUrl = "mongodb://localhost/playlist";
-mongoose.connect(dbUrl);
+mongoose
+  .connect(config.dbUrl)
+  .then(() => logger.info("DB connection established"))
+  .catch(() => logger.error("Error connecting to database"));
 
 app.use(cors());
 app.use(express.json());
@@ -29,7 +37,6 @@ app.post("/api/playlists", async (request, response) => {
   response.status(201).json(savedPlaylist);
 });
 
-const PORT = 3003;
-app.listen(PORT, () => {
-  console.log(`Server listening on port ${PORT}`);
+app.listen(config.port, () => {
+  logger.info(`Server listening on port ${config.port}`);
 });
