@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 const cors = require("cors");
 const mongoose = require("mongoose");
+const middleware = require("./utils/middleware");
 
 const logger = require("./utils/logger");
 const config = require("./utils/config");
@@ -16,6 +17,8 @@ mongoose
 
 app.use(cors());
 app.use(express.json());
+app.use(middleware.requestLogger);
 app.use("/api/playlists", playlistsRouter);
+app.use(middleware.errorHandler);
 
 module.exports = app;
