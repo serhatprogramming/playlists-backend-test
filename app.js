@@ -19,6 +19,7 @@ app.use(cors());
 app.use(express.json());
 app.use(middleware.requestLogger);
 app.use("/api/playlists", playlistsRouter);
+app.use(middleware.unknownEndpoint);
 app.use(middleware.errorHandler);
 
 module.exports = app;
