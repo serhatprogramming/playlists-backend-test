@@ -14,6 +14,13 @@ playlistsRouter.get("/", async (request, response, next) => {
 playlistsRouter.post("/", async (request, response, next) => {
   try {
     const playlist = new Playlist(request.body);
+
+    if (!playlist.name || !playlist.creator) {
+      return response
+        .status(400)
+        .json({ error: "Both 'name' and 'creator' are required." });
+    }
+
     const savedPlaylist = await playlist.save();
     response.status(201).json(savedPlaylist);
   } catch (error) {
