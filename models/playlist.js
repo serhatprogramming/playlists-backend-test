@@ -1,8 +1,8 @@
 const mongoose = require("mongoose");
 
 const playlistSchema = new mongoose.Schema({
-  name: String,
-  creator: String,
+  name: { type: String, required: true, minLength: 2 },
+  creator: { type: String, required: true, minLength: 2 },
   numOfSongs: Number,
   likes: Number,
 });
