@@ -7,7 +7,9 @@ const info = (message) => {
 };
 
 const error = (message) => {
-  console.error(`[ERROR] ${message}`);
+  if (!isTestEnv) {
+    console.error(`[ERROR] ${message}`);
+  }
 };
 
 module.exports = { info, error };

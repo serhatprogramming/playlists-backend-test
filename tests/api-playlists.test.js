@@ -96,6 +96,20 @@ describe("Playlists API", () => {
       const response = await apiTest.delete(`/api/playlists/${invalidId}`);
       expect(response.status).toBe(400);
     });
+
+    test("should update the name of the first playlist with a PUT request", async () => {
+      const updatedName = "Updated Playlist Name";
+
+      const getPlaylistsResponse = await apiTest.get("/api/playlists");
+      const firstPlaylistId = getPlaylistsResponse.body[0].id;
+
+      const response = await apiTest
+        .put(`/api/playlists/${firstPlaylistId}`)
+        .send({ name: updatedName });
+
+      const updatedPlaylistName = response.body.name;
+      expect(updatedPlaylistName).toBe(updatedName);
+    });
   });
 });
 
