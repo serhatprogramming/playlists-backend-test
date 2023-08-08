@@ -13,4 +13,9 @@ playlistsRouter.post("/", async (request, response) => {
   response.status(201).json(savedPlaylist);
 });
 
+playlistsRouter.delete("/:id", async (request, response) => {
+  await Playlist.findByIdAndDelete(request.params.id);
+  response.status(204).json({ message: "Deletion successful" });
+});
+
 module.exports = playlistsRouter;

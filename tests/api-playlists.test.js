@@ -79,6 +79,24 @@ describe("Playlists API", () => {
       expect(response.status).toBe(400);
     });
   });
+
+  describe("DELETE and PUT /api/playlists", () => {
+    test("should return 204 status code on successful deletion of a playlist", async () => {
+      const getPlaylistsResponse = await apiTest.get("/api/playlists");
+      const firstPlaylistId = getPlaylistsResponse.body[0].id;
+
+      const deleteResponse = await apiTest.delete(
+        `/api/playlists/${firstPlaylistId}`
+      );
+      expect(deleteResponse.status).toBe(204);
+    });
+
+    test("should return 400 status code when attempting to delete with an invalid ID", async () => {
+      const invalidId = "invalidId";
+      const response = await apiTest.delete(`/api/playlists/${invalidId}`);
+      expect(response.status).toBe(400);
+    });
+  });
 });
 
 afterAll(async () => {
